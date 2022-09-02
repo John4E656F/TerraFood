@@ -9,7 +9,6 @@ const Recipes = recipesDB.model(
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     description: {
       type: String,
