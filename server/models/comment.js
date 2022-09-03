@@ -21,10 +21,7 @@ const Comment = commentDB.model(
         type: mongoose.SchemaTypeOptions.Types.objectId,
         ref: 'Post'
     },
-    dat: {
-        type: Date,
-        default: Date.now,
-    },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     hidden: Boolean,
   }, { collection: 'comment' }) //specify the mongodb collection
 );

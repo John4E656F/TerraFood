@@ -1,9 +1,9 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 
-const recipesDB = mongoose.createConnection(process.env.DATABASE_URL + `recipes`)
-const Recipes = recipesDB.model(
-  "Recipes",
+const postDB = mongoose.createConnection(process.env.DATABASE_URL + `rpost`)
+const Post = postDB.model(
+  "Post",
   new mongoose.Schema({
     title:  { 
       type: String,
@@ -11,28 +11,17 @@ const Recipes = recipesDB.model(
       trim: true,
       unique: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
-    image: {
-        type: Array,
-        required: true,
-    },
-    video: {
-      type: Array,
-    },
     recipe: {
         type: mongoose.SchemaTypeOptions.Types.ObjectId,
         ref: 'Recipe',
     },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
-    date: Date,
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     comments: [{
       type: Schema.Types.ObjectId, 
       ref: 'Comment' ,
     }],
     hidden: Boolean,
-  }, { collection: 'recipes' }) //specify the mongodb collection
+  }, { collection: 'post' }) //specify the mongodb collection
 );
-module.exports = Recipes;
+module.exports = Post;
