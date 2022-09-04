@@ -19,12 +19,12 @@ app.use(cors())
 app.use(express.json());
 
 const routes = require('./routes/routes');
+const userRoute = require('./routes/users.routes');
 
 app.use('/api', routes)
-
+app.use('/user', userRoute)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
 })
-

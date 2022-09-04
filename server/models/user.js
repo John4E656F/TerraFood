@@ -1,13 +1,21 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 
-const recipesDB = mongoose.createConnection(process.env.DATABASE_URL + `recipes`)
-const Recipes = recipesDB.model(
-  "Recipes",
+const usersDB = mongoose.createConnection(process.env.DATABASE_URL + `users`)
+const User = usersDB.model(
+  "User",
   new mongoose.Schema({
+    name:  { 
+      type: String,
+      lowercase: true,
+      required: [true, "can't be blank"],
+      trim: true,
+      unique: true,
+    },
     username:  { 
       type: String,
-      required: true,
+      lowercase: true,
+      required: [true, "can't be blank"],
       trim: true,
       unique: true,
     },
@@ -23,17 +31,23 @@ const Recipes = recipesDB.model(
         trim: true,
     },
     profilePicture: {
-        type: Array,
+        type: String,
         required: true,
     },
-    bio: String,
-    role: {
-      type: Schema.Types.ObjectId,
-      ref: 'Role',
-      default: 'Basic'
+    bio: {
+      type: String,
+      maxLength: 300,
     },
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    // index: { unique: true },
+    // role: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'Role',
+    //   default: 'Basic'
+    // },
     hidden: Boolean,
-  }, { collection: 'recipes' }) //specify the mongodb collection
+  }, { 
+      collection: 'users',
+      timestamps: true 
+    }) //specify the mongodb collection
 );
-module.exports = Recipes;
+module.exports = User;

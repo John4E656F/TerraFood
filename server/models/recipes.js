@@ -26,7 +26,7 @@ const Recipes = recipesDB.model(
       lunch: { type: Boolean, default: 'false', },
       dinner: { type: Boolean, default: 'false', },
       salad: { type: Boolean, default: 'false', },
-      sidedish: { type: Boolean, default: 'false', },
+      sideDish: { type: Boolean, default: 'false', },
       snack: { type: Boolean, default: 'false', },
       soup: { type: Boolean, default: 'false', },
       vegetarian: { type: Boolean, default: 'false', },
@@ -36,11 +36,11 @@ const Recipes = recipesDB.model(
       carnivore: { type: Boolean, default: 'false', },
       paleo: { type: Boolean, default: 'false', },
       pescetarian: { type: Boolean, default: 'false', },
-      lowfat: { type: Boolean, default: 'false', },
+      lowFat: { type: Boolean, default: 'false', },
       nordic: { type: Boolean, default: 'false', },
       asian: { type: Boolean, default: 'false', },
     },
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
+    user_id: { type: Schema.Types.ObjectId, ref: 'User' },
     hidden: Boolean,
   }, { collection: 'recipes' }) //specify the mongodb collection
 );
