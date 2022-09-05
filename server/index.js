@@ -18,12 +18,10 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
-const routes = require('./routes/routes');
 const userRoute = require('./routes/users.routes');
 const recipeRoute = require('./routes/recipes.routes');
 const postRoute = require('./routes/post.routes');
 
-app.use('/api', routes)
 app.use('/user', userRoute)
 app.use('/recipe', recipeRoute)
 app.use('/post', postRoute)

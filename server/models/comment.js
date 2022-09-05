@@ -1,11 +1,11 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 
-const recipesDB = mongoose.createConnection(process.env.DATABASE_URL + `comment`)
+const commentDB = mongoose.createConnection(process.env.DATABASE_URL + `comment`)
 const Comment = commentDB.model(
   "Comment",
   new mongoose.Schema({
-    author:  { 
+    user_id:  { 
         type: Schema.Types.ObjectId, 
         ref: 'User',
       required: true,

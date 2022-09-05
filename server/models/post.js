@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require("mongoose");
 
-const postDB = mongoose.createConnection(process.env.DATABASE_URL + `rpost`)
+const postDB = mongoose.createConnection(process.env.DATABASE_URL + `post`)
 const Post = postDB.model(
   "Post",
   new mongoose.Schema({
@@ -17,10 +17,10 @@ const Post = postDB.model(
         ref: 'Recipe',
     },
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    comments_id: [{
+    comments_id: {
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'Comment',
-    }],
+    },
     hidden: Boolean,
   }, { 
     collection: 'post',
