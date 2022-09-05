@@ -13,16 +13,18 @@ const Post = postDB.model(
     },
     recipe: {
         required: true,
-        type: mongoose.SchemaTypeOptions.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Recipe',
     },
-    user_id: { type: Schema.Types.ObjectId, ref: 'User' },
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     comments_id: [{
-      type: Schema.Types.ObjectId, 
-      ref: 'Comment' ,
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Comment',
     }],
     hidden: Boolean,
-  }, { collection: 'post' }) //specify the mongodb collection
+  }, { 
+    collection: 'post',
+    timestamps: true 
+  }) //specify the mongodb collection
 );
 module.exports = Post;
