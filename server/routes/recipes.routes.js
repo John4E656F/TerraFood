@@ -58,49 +58,9 @@ router.route('/:recipe_id')
         }, (err, user) => {
             if(err) res.send(err);
 
-            res.json({ message: 'Succesfully deleted recipe'});
+            res.json({ message: 'Successfully deleted recipe'});
         })
     })
 
-router.route('/signup').post((req, res) => {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = bcrypt.hashSync(req.body.password, 12);
-
-    const newUser = new User({
-        username,
-        email,
-        password,
-    });
-
-    newUser.save()
-    .then(() => res.json('User added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.put('/update/:username', async (req, res) => {
-    const { username } = req.params;
-    // const { email, password } = req.body;
-    const filter = { username: username }
-    const update = { 
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    }
-
-    const updatedUser = await User.findOneAndUpdate( filter, update, { 
-        new: true,
-        runValidators: true
-    })
-        try{
-            res.status(200).json({
-                message: 'User Updated',
-                data: updatedUser
-            })
-        }catch(err) {
-            res.status(400).send(err)
-        };
-        
-});
 
 module.exports = router;
