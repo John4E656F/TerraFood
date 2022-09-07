@@ -26,6 +26,10 @@ app.use('/user', userRoute)
 app.use('/recipe', recipeRoute)
 app.use('/post', postRoute)
 
+app.use('/', app.get("/", (req, res) => {  
+    res.send("Hello World!");  
+  }))
+
 const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`)
