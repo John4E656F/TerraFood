@@ -21,14 +21,13 @@ app.use(express.json());
 const userRoute = require('./routes/users.routes');
 const recipeRoute = require('./routes/recipes.routes');
 const postRoute = require('./routes/post.routes');
+const testRoute = require('./routes/test.routes');
 
 app.use('/user', userRoute)
 app.use('/recipe', recipeRoute)
 app.use('/post', postRoute)
 
-app.use('/', app.get("/", (req, res) => {  
-    res.send("Hello World!");  
-  }))
+app.use('/', testRoute)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
