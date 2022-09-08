@@ -4,7 +4,7 @@
 ## Techs
 - ExpressJS : Routing
 - MongoDB : Database
-- Mongoose : Mongodb Object Modeiling
+- Mongoose : Mongodb Object Modeling
 - AWS : Backend Host
 - Firebase : Storage
 
