@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from "axios";
 import {
     Avatar,
     Button,
@@ -121,16 +122,16 @@ export default function RecipeSubmit(props) {
       setinputValue("");
   };
 
-  const [instruction, setInstruction] = useState([]);
+  const [instructions, setInstructions] = useState([]);
   const [inputInstrucValue, setinputInstrucValue] = useState("");
 
   const saveInstruction = (e) => {
     setinputInstrucValue(e.target.value);
   };
   const addInstruction = () => {
-    const copyInstruc = [...instruction];
+    const copyInstruc = [...instructions];
       copyInstruc.push(inputInstrucValue);
-      setInstruction(copyInstruc);
+      setInstructions(copyInstruc);
       setinputInstrucValue("");
   };
 
@@ -150,7 +151,7 @@ export default function RecipeSubmit(props) {
       description: description,
       category: checkedItems,
       ingredients: ingredients,
-      instructions: instruction,
+      instructions: instructions,
     };
 
     console.log(newRecipe)
@@ -164,9 +165,18 @@ export default function RecipeSubmit(props) {
     // },
     // );
 
-    // axios.post("http://3.86.50.101:3000/recipe/submit", newRecipe)
-    //   .then(res => { console.log(res) })
-    //   .catch(err => { console.log(err) })
+    let config = {
+      method: "post",
+      url: "http://3.86.50.101:3000/recipe/submit",
+      header: {
+        "Content_type": "application/json"
+      },
+      data: newRecipe
+    }
+
+    axios(config)
+      .then(res => { console.log(res) })
+      .catch(err => { console.log(err) })
 
   };
 
@@ -305,7 +315,7 @@ export default function RecipeSubmit(props) {
                     </ListItem>
                     )
                   })}
-                  <button onClick={addIngredient}>Add Ingredient</button>
+                  <Button onClick={addIngredient}>Add Ingredient</Button>
                 </List>
               </Grid>
               <Grid item xs={12}>
@@ -317,7 +327,7 @@ export default function RecipeSubmit(props) {
                   value={inputInstrucValue}
                 />
                 <List>
-                  {instruction.map((instrucList, i) => {
+                  {instructions.map((instrucList, i) => {
                     return (
                     <ListItem key={i} >
                       Step { i + 1}:
@@ -328,7 +338,7 @@ export default function RecipeSubmit(props) {
                     </ListItem>
                     )
                   })}
-                  <button onClick={addInstruction}>Add Instruction</button>
+                  <Button onClick={addInstruction}>Add Instruction</Button>
                 </List>
               </Grid>
               {/* <Grid item xs={12}>

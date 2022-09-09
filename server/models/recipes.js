@@ -45,7 +45,7 @@ const Recipe = recipesDB.model(
       type: Array,
       trim: true,
     },
-    instruction: {
+    instructions: {
       type: Array,
       trim: true,
     },
