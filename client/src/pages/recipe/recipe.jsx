@@ -26,7 +26,8 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import FileUpload from 'react-mui-fileuploader';
 import {categoryList} from './catText';
-
+import storage from '../../firebase';
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 
 function Copyright(props) {
@@ -68,13 +69,53 @@ export default function RecipeSubmit(props) {
   const [ name, setName] = useState('')
   const [ description, setDescription] = useState('');
 
-  const handleFileUploadError = (error) => {
+  const [ image, setImage ] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [imgFileName, setImgFileName] = useState('');
+  const[progress,setProgress]=useState(0);
 
-  };
+  const imgUploadHandler = (e) => {
 
-  const handleFilesChange = (files) => {
+    const img = document.getElementById("uploadImg").files[0];
+      setImgFileName(image.name); //set filename
+      setImage(image); //set file
 
-  };
+      const uploadTask = storage.ref(`recipes/images/${img.name}`).put(image);
+
+    // if (!img) return;
+
+    // const storageRef = ref(storage, `recipes/images/${img.name}`);
+    // const uploadTask = uploadBytesResumable(storageRef, img);
+
+    uploadTask.on("state_changed",
+      (snapshot) => {
+        //file upload progress report
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgress({progress});
+      },
+      //file upload failed
+      (error) => {
+        console.log(error);
+      },
+      //file upload completed
+      () => {
+        storage.ref(`recipes`).child(`${imgFileName}`).getDownloadURL()
+        .then(
+          //get download url
+          (downloadURL) => {
+          setImageUrl(downloadURL);
+          console.log(downloadURL);
+          console.log(imageUrl);
+        },
+        //failed to get download url
+        (error) => {
+          console.log(error);
+        }
+        );
+      }
+    )
+  }
+
 
   const [open, setOpen] = React.useState(false);
 
@@ -146,9 +187,12 @@ export default function RecipeSubmit(props) {
       //   "ingredients": ingredients,
       //   "instructions": instruction,
       // });
+
+
     const newRecipe = {
       name: name,
       description: description,
+      image: imageUrl,
       category: checkedItems,
       ingredients: ingredients,
       instructions: instructions,
@@ -167,19 +211,20 @@ export default function RecipeSubmit(props) {
 
     let config = {
       method: "post",
-      url: "http://3.86.50.101:3000/recipe/submit",
+      url: "http://localhost:3000/recipe/submit",
       header: {
         "Content_type": "application/json"
       },
       data: newRecipe
     }
 
-    axios(config)
-      .then(res => { console.log(res) })
-      .catch(err => { console.log(err) })
+    // axios(config)
+    //   .then(res => { console.log(res) })
+    //   .catch(err => { console.log(err) })
 
   };
 
+  console.log("progress:" , progress);
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -242,10 +287,12 @@ export default function RecipeSubmit(props) {
                   maxUploadFiles={0}
                   maxFilesContainerHeight={357}
                   errorSizeMessage={'fill it or move it to use the default error message'}
-                  allowedExtensions={['jpg', 'jpeg']}
-                  onFilesChange={handleFilesChange}
-                  onError={handleFileUploadError}
-                //   imageSrc={'path/to/custom/image'}
+                  allowedExtensions={['jpg', 'jpeg', 'png']}
+                  // onFilesSubmit={upload}
+                  type="file"
+                  onChange={imgUploadHandler}
+                  // onFilesChange={imgUploadHandler}
+                  id="uploadImg"
                   bannerProps={{ elevation: 0, variant: "outlined" }}
                   containerProps={{ elevation: 0, variant: "outlined" }}
                 />
@@ -265,9 +312,7 @@ export default function RecipeSubmit(props) {
                   maxFilesContainerHeight={357}
                   errorSizeMessage={'fill it or move it to use the default error message'}
                   allowedExtensions={['jpg', 'jpeg']}
-                  onFilesChange={handleFilesChange}
-                  onError={handleFileUploadError}
-                //   imageSrc={'path/to/custom/image'}
+
                   bannerProps={{ elevation: 0, variant: "outlined" }}
                   containerProps={{ elevation: 0, variant: "outlined" }}
                 />
